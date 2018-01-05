@@ -42,7 +42,7 @@ func (s *CreateWithdrawService) Name(name string) *CreateWithdrawService {
 func (s *CreateWithdrawService) Do(ctx context.Context) (err error) {
 	r := &request{
 		method:   "POST",
-		endpoint: "/wapi/v1/withdraw.html",
+		endpoint: "/wapi/v3/withdraw.html",
 		secType:  secTypeSigned,
 	}
 	m := params{
