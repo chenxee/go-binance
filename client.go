@@ -68,12 +68,14 @@ func newJSON(data []byte) (j *simplejson.Json, err error) {
 // Services will be created by the form client.NewXXXService().
 func NewClient(apiKey, secretKey string) *Client {
 	return &Client{
-		APIKey:     apiKey,
-		SecretKey:  secretKey,
-		BaseURL:    "https://www.binance.com",
-		UserAgent:  "Binance/golang",
-		HTTPClient: http.DefaultClient,
-		Logger:     log.New(os.Stderr, "[binance] "+strconv.FormatInt(time.Now().UTC().Unix(), 10)+" ", log.LstdFlags),
+		APIKey:    apiKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://www.binance.com",
+		UserAgent: "Binance/golang",
+		HTTPClient: &http.Client{
+			Timeout: time.Second * 5,
+		},
+		Logger: log.New(os.Stderr, "[binance] "+strconv.FormatInt(time.Now().UTC().Unix(), 10)+" ", log.LstdFlags),
 	}
 }
 
