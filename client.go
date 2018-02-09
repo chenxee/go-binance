@@ -70,7 +70,7 @@ func NewClient(apiKey, secretKey string) *Client {
 	return &Client{
 		APIKey:    apiKey,
 		SecretKey: secretKey,
-		BaseURL:   "https://www.binance.com",
+		BaseURL:   "https://api.binance.com",
 		UserAgent: "Binance/golang",
 		HTTPClient: &http.Client{
 			Timeout: time.Second * 5,
