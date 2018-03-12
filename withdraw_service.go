@@ -145,10 +145,72 @@ type WithdrawHistoryResponse struct {
 
 // Withdraw define withdraw info
 type Withdraw struct {
+	ID        string  `json:"id"`
 	Amount    float64 `json:"amount"`
 	Address   string  `json:"address"`
 	Asset     string  `json:"asset"`
 	TxID      string  `json:"txId"`
 	ApplyTime int64   `json:"applyTime"`
 	Status    int     `json:"status"`
+}
+
+type WithdrawHistoryService struct {
+	c         *Client
+	asset     *string
+	status    *int
+	startTime *int64
+	endTime   *int64
+}
+
+func (s *WithdrawHistoryService) Asset(asset string) *WithdrawHistoryService {
+	s.asset = &asset
+	return s
+}
+
+// Status set status
+func (s *WithdrawHistoryService) Status(status int) *WithdrawHistoryService {
+	s.status = &status
+	return s
+}
+
+// StartTime set startTime
+func (s *WithdrawHistoryService) StartTime(startTime int64) *WithdrawHistoryService {
+	s.startTime = &startTime
+	return s
+}
+
+// EndTime set endTime
+func (s *WithdrawHistoryService) EndTime(endTime int64) *WithdrawHistoryService {
+	s.endTime = &endTime
+	return s
+}
+
+func (s *WithdrawHistoryService) Do(ctx context.Context) (withdraws []*Withdraw, err error) {
+	r := &request{
+		method:   "GET",
+		endpoint: "/wapi/v3/withdrawHistory.html",
+		secType:  secTypeSigned,
+	}
+	if s.asset != nil {
+		r.setParam("asset", *s.asset)
+	}
+	if s.status != nil {
+		r.setParam("status", *s.status)
+	}
+	if s.startTime != nil {
+		r.setParam("startTime", *s.startTime)
+	}
+	if s.endTime != nil {
+		r.setParam("endTime", *s.endTime)
+	}
+	data, err := s.c.callAPI(ctx, r)
+	if err != nil {
+		return
+	}
+	res := new(WithdrawHistoryResponse)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return
+	}
+	return res.Withdraws, nil
 }

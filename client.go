@@ -284,6 +284,10 @@ func (c *Client) NewListWithdrawsService() *ListWithdrawsService {
 	return &ListWithdrawsService{c: c}
 }
 
+func (c *Client) NewWithdrawHistoryService() *WithdrawHistoryService {
+	return &WithdrawHistoryService{c: c}
+}
+
 // NewStartUserStreamService init starting user stream service
 func (c *Client) NewStartUserStreamService() *StartUserStreamService {
 	return &StartUserStreamService{c: c}
