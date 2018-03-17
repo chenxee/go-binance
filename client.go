@@ -73,7 +73,7 @@ func NewClient(apiKey, secretKey string) *Client {
 		BaseURL:   "https://api.binance.com",
 		UserAgent: "Binance/golang",
 		HTTPClient: &http.Client{
-			Timeout: time.Second * 5,
+			Timeout: time.Second * 10,
 		},
 		Logger: log.New(os.Stderr, "[binance] "+strconv.FormatInt(time.Now().UTC().Unix(), 10)+" ", log.LstdFlags),
 	}
